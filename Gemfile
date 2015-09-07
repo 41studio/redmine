@@ -89,6 +89,10 @@ group :development do
   gem "rdoc", ">= 2.4.2"
   gem "yard"
   gem "thin"
+  gem 'capistrano',  '~> 3.1', require:false
+  gem 'capistrano-rails', '~> 1.1', require:false
+  gem 'capistrano-passenger', require:false
+  gem 'capistrano-bundler', '~> 1.1.2', require:false
 end
 
 group :test do
