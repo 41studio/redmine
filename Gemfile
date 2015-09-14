@@ -22,6 +22,8 @@ gem "rbpdf", "~> 1.18.6"
 # move from plugin
 gem 'gemoji', "1.5.0"
 
+gem 'json', "1.8.3"
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.3.1"
