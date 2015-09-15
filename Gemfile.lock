@@ -132,6 +132,7 @@ GEM
     rdoc (4.2.0)
       json (~> 1.4)
     redcarpet (3.3.2)
+    redmine_github_hook (2.2.0)
     request_store (1.0.5)
     rmagick (2.15.4)
     ruby-openid (2.3.0)
@@ -199,6 +200,7 @@ DEPENDENCIES
   rbpdf (~> 1.18.6)
   rdoc (>= 2.4.2)
   redcarpet (~> 3.3.2)
+  redmine_github_hook
   request_store (= 1.0.5)
   rmagick (>= 2.14.0)
   ruby-openid (~> 2.3.0)
