@@ -20,7 +20,7 @@ gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin, :jruby]
 gem "rbpdf", "~> 1.18.6"
 
 # gem from redmine plugin
-# gem 'gemoji', "1.5.0"
+gem 'gemoji', "1.5.0"
 
 # Optional gem for LDAP authentication
 group :ldap do
