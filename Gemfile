@@ -21,7 +21,6 @@ gem "rbpdf", "~> 1.18.6"
 
 # gem from redmine plugin
 # gem 'gemoji', "1.5.0"
-# gem 'redmine_github_hook'
 
 # Optional gem for LDAP authentication
 group :ldap do
