@@ -23,6 +23,10 @@ class AttachmentTest < ActiveSupport::TestCase
   fixtures :users, :projects, :roles, :members, :member_roles,
            :enabled_modules, :issues, :trackers, :attachments
 
+  # TODO: remove this with Rails 5 that supports after_commit callbacks
+  # in transactional fixtures (https://github.com/rails/rails/pull/18458)
+  self.use_transactional_fixtures = false
+
   class MockFile
     attr_reader :original_filename, :content_type, :content, :size
 
@@ -190,7 +194,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal "test.png (Cool image)", a.title
   end
 
-  def test_new_attachment_should_be_editable_by_authot
+  def test_new_attachment_should_be_editable_by_author
     user = User.find(1)
     a = Attachment.new(:author => user)
     assert_equal true, a.editable?(user)

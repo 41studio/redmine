@@ -873,6 +873,11 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  # Returns the original tracker
+  def tracker_was
+    Tracker.find_by_id(tracker_id_was)
+  end
+
   # Returns the users that should be notified
   def notified_users
     notified = []
@@ -1381,7 +1386,7 @@ class Issue < ActiveRecord::Base
     if current_project
       condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
     end
-    Project.where(condition)
+    Project.where(condition).having_trackers
   end
 
   private

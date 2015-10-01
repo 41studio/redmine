@@ -398,7 +398,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_public_query_should_be_available_to_other_users
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
+    q = IssueQuery.create!(:name => "public", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
     @request.session[:user_id] = 3
 
     get :index, :query_id => q.id
@@ -721,6 +721,13 @@ class IssuesControllerTest < ActionController::TestCase
     hours = assigns(:issues).collect(&:total_spent_hours)
     assert_equal hours.sort.reverse, hours
   end
+  
+  def test_index_sort_by_total_estimated_hours
+    get :index, :sort => 'total_estimated_hours:desc'
+    assert_response :success
+    hours = assigns(:issues).collect(&:total_estimated_hours)
+    assert_equal hours.sort.reverse, hours
+  end
 
   def test_index_sort_by_user_custom_field
     cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
@@ -860,6 +867,11 @@ class IssuesControllerTest < ActionController::TestCase
     Issue.expects(:load_visible_total_spent_hours).once
     get :index, :set_filter => 1, :c => %w(subject total_spent_hours)
     assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1.00'
+  end
+
+  def test_index_with_total_estimated_hours_column
+    get :index, :set_filter => 1, :c => %w(subject total_estimated_hours)
+    assert_select 'table.issues td.total_estimated_hours'
   end
 
   def test_index_should_not_show_spent_hours_column_without_permission
@@ -3043,6 +3055,16 @@ class IssuesControllerTest < ActionController::TestCase
     assert_not_nil mail
     assert mail.subject.starts_with?("[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]")
     assert_mail_body_match "Project changed from eCookbook to OnlineStore", mail
+  end
+
+  def test_put_update_trying_to_move_issue_to_project_without_tracker_should_not_error
+    target = Project.generate!(:tracker_ids => [])
+    assert target.trackers.empty?
+    issue = Issue.generate!
+    @request.session[:user_id] = 1
+
+    put :update, :id => issue.id, :issue => {:project_id => target.id}
+    assert_response 302
   end
 
   def test_put_update_with_tracker_change
