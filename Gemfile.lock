@@ -134,7 +134,7 @@ GEM
     rbpdf (1.18.6)
     rdoc (4.2.0)
       json (~> 1.4)
-    redcarpet (3.3.3)
+    redcarpet (3.3.2)
     request_store (1.0.5)
     rmagick (2.15.4)
     roadie (3.0.5)
