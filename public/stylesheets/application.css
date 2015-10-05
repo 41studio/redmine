@@ -271,6 +271,9 @@ table.query-columns td.buttons {
   text-align: center;
 }
 table.query-columns td.buttons input[type=button] {width:35px;}
+.query-totals {text-align:right; margin-top:-2.3em;}
+.query-totals>span {margin-left:0.6em;}
+.query-totals .value {font-weight:bold;}
 
 td.center {text-align:center;}
 
@@ -967,7 +970,7 @@ a.close-icon:hover {background-image:url('../images/close_hl.png');}
   overflow: hidden;
 }
 
-.gantt_hdr.nwday {background-color:#f1f1f1;}
+.gantt_hdr.nwday {background-color:#f1f1f1; color:#999;}
 
 .gantt_subjects { font-size: 0.8em; }
 .gantt_subjects div { line-height:16px;height:16px;overflow:hidden;white-space:nowrap;text-overflow: ellipsis; }

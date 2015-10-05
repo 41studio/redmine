@@ -646,6 +646,7 @@ en:
     one:   1 issue
     other: "%{count} issues"
   label_total: Total
+  label_total_plural: Totals
   label_total_time: Total time
   label_permissions: Permissions
   label_current_status: Current status
@@ -971,6 +972,7 @@ en:
   label_fields_mapping: Fields mapping
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
+  label_api: API
 
   button_login: Login
   button_submit: Submit
