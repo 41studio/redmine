@@ -12,3 +12,4 @@ end
 
 # Initialize the Rails application
 Rails.application.initialize!
+Rails.logger = Le.new('d2334501-e59a-4714-b5e4-aada2ba4f805', :debug => true, :local => true)
