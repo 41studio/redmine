@@ -303,7 +303,6 @@ class IssueQuery < Query
   def base_scope
     Issue.visible.joins(:status, :project).where(statement)
   end
-  private :base_scope
 
   # Returns the issue count
   def issue_count
@@ -312,55 +311,30 @@ class IssueQuery < Query
     raise StatementInvalid.new(e.message)
   end
 
+  # Returns the issue count by group or nil if query is not grouped
+  def issue_count_by_group
+    grouped_query do |scope|
+      scope.count
+    end
+  end
+
   # Returns sum of all the issue's estimated_hours
-  def total_for_estimated_hours
-    base_scope.sum(:estimated_hours).to_f.round(2)
+  def total_for_estimated_hours(scope)
+    map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}
   end
 
   # Returns sum of all the issue's time entries hours
-  def total_for_spent_hours
-    base_scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f.round(2)
-  end
-
-  def total_for_custom_field(custom_field)
-    base_scope.joins(:custom_values).
-      where(:custom_values => {:custom_field_id => custom_field.id}).
-      where.not(:custom_values => {:value => ''}).
-      sum("CAST(#{CustomValue.table_name}.value AS decimal(30,3))")
-  end
-  private :total_for_custom_field
-
-  def total_for_float_custom_field(custom_field)
-    total_for_custom_field(custom_field).to_f
-  end
-
-  def total_for_int_custom_field(custom_field)
-    total_for_custom_field(custom_field).to_i
-  end
-
-  # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
-    r = nil
-    if grouped?
-      begin
-        # Rails3 will raise an (unexpected) RecordNotFound if there's only a nil group value
-        r = Issue.visible.
-          joins(:status, :project).
-          where(statement).
-          joins(joins_for_order_statement(group_by_statement)).
-          group(group_by_statement).
-          count
-      rescue ActiveRecord::RecordNotFound
-        r = {nil => issue_count}
-      end
-      c = group_by_column
-      if c.is_a?(QueryCustomFieldColumn)
-        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
-      end
+  def total_for_spent_hours(scope)
+    total = if group_by_column.try(:name) == :project
+      # TODO: remove this when https://github.com/rails/rails/issues/21922 is fixed
+      # We have to do a custom join without the time_entries.project_id column
+      # that would trigger a ambiguous column name error
+      scope.joins("JOIN (SELECT issue_id, hours FROM #{TimeEntry.table_name}) AS joined_time_entries ON joined_time_entries.issue_id = #{Issue.table_name}.id").
+        sum("joined_time_entries.hours")
+    else
+      scope.joins(:time_entries).sum("#{TimeEntry.table_name}.hours")
     end
-    r
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise StatementInvalid.new(e.message)
+    map_total(total) {|t| t.to_f.round(2)}
   end
 
   # Returns the issues

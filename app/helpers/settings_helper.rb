@@ -25,6 +25,7 @@ module SettingsHelper
             {:name => 'api', :partial => 'settings/api', :label => :label_api},
             {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
             {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
+            {:name => 'attachments', :partial => 'settings/attachments', :label => :label_attachment_plural},
             {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},
             {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
             {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
@@ -108,6 +109,25 @@ module SettingsHelper
     end
 
     content_tag(:label, tag + text, options)
+  end
+
+  def session_lifetime_options
+    options = [[l(:label_disabled), 0]]
+    options += [4, 8, 12].map {|hours|
+      [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
+    }
+    options += [1, 7, 30, 60, 365].map {|days|
+      [l('datetime.distance_in_words.x_days', :count => days), (days * 24 * 60).to_s]
+    }
+    options
+  end
+
+  def session_timeout_options
+    options = [[l(:label_disabled), 0]]
+    options += [1, 2, 4, 8, 12, 24, 48].map {|hours|
+      [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
+    }
+    options
   end
 
   def link_copied_issue_options

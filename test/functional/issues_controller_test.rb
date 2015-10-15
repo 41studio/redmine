@@ -953,8 +953,30 @@ class IssuesControllerTest < ActionController::TestCase
     get :index, :t => %w(estimated_hours)
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.total-for-estimated-hours span.value', :text => '6.6'
+    assert_select '.total-for-estimated-hours span.value', :text => '6.60'
     assert_select 'input[type=checkbox][name=?][value=estimated_hours][checked=checked]', 't[]'
+  end
+
+  def test_index_with_grouped_query_and_estimated_hours_total
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5, :category_id => 1)
+    Issue.generate!(:estimated_hours => 2.3, :category_id => 1)
+    Issue.generate!(:estimated_hours => 1.1, :category_id => 2)
+    Issue.generate!(:estimated_hours => 4.6)
+
+    get :index, :t => %w(estimated_hours), :group_by => 'category'
+    assert_response :success
+    assert_select '.query-totals'
+    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13.50'
+    assert_select 'tr.group', :text => /Printing/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '7.80'
+    end
+    assert_select 'tr.group', :text => /Recipes/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '1.10'
+    end
+    assert_select 'tr.group', :text => /blank/ do
+      assert_select '.total-for-estimated-hours span.value', :text => '4.60'
+    end
   end
 
   def test_index_with_int_custom_field_total
@@ -2144,6 +2166,31 @@ class IssuesControllerTest < ActionController::TestCase
     end
 
     assert_select_error /Due date cannot be blank/i
+    assert_select_error /Bar cannot be blank/i
+  end
+
+  def test_create_should_validate_required_list_fields
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => false, :possible_values => ['a', 'b'])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => true, :possible_values => ['a', 'b'])
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf1.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Issue.count' do
+      post :create, :project_id => 1, :issue => {
+        :tracker_id => 2,
+        :status_id => 1,
+        :subject => 'Test',
+        :start_date => '',
+        :due_date => '',
+        :custom_field_values => {cf1.id.to_s => '', cf2.id.to_s => ['']}
+      }
+      assert_response :success
+      assert_template 'new'
+    end
+
+    assert_select_error /Foo cannot be blank/i
     assert_select_error /Bar cannot be blank/i
   end
 
