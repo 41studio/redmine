@@ -449,7 +449,7 @@ class IssuesControllerTest < ActionController::TestCase
     Issue.generate!(:description => 'test_index_csv_with_description')
 
     with_settings :default_language => 'en' do
-      get :index, :format => 'csv', :description => '1'
+      get :index, :format => 'csv', :csv => {:description => '1'}
       assert_response :success
       assert_not_nil assigns(:issues)
     end
@@ -472,7 +472,7 @@ class IssuesControllerTest < ActionController::TestCase
   end
 
   def test_index_csv_with_all_columns
-    get :index, :format => 'csv', :columns => 'all'
+    get :index, :format => 'csv', :csv => {:columns => 'all'}
     assert_response :success
     assert_not_nil assigns(:issues)
     assert_equal 'text/csv; header=present', @response.content_type
@@ -487,7 +487,7 @@ class IssuesControllerTest < ActionController::TestCase
     issue.custom_field_values = {1 => ['MySQL', 'Oracle']}
     issue.save!
 
-    get :index, :format => 'csv', :columns => 'all'
+    get :index, :format => 'csv', :csv => {:columns => 'all'}
     assert_response :success
     lines = @response.body.chomp.split("\n")
     assert lines.detect {|line| line.include?('"MySQL, Oracle"')}
@@ -498,14 +498,14 @@ class IssuesControllerTest < ActionController::TestCase
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id => '185.6'})
 
     with_settings :default_language => 'fr' do
-      get :index, :format => 'csv', :columns => 'all'
+      get :index, :format => 'csv', :csv => {:columns => 'all'}
       assert_response :success
       issue_line = response.body.chomp.split("\n").map {|line| line.split(';')}.detect {|line| line[0]==issue.id.to_s}
       assert_include '185,60', issue_line
     end
 
     with_settings :default_language => 'en' do
-      get :index, :format => 'csv', :columns => 'all'
+      get :index, :format => 'csv', :csv => {:columns => 'all'}
       assert_response :success
       issue_line = response.body.chomp.split("\n").map {|line| line.split(',')}.detect {|line| line[0]==issue.id.to_s}
       assert_include '185.60', issue_line
@@ -1375,6 +1375,22 @@ class IssuesControllerTest < ActionController::TestCase
       assert_select 'a[href="/issues/2"]', :text => /Previous/
       assert_select 'a[href="/issues/1"]', :text => /Next/
     end
+  end
+
+  def test_show_should_display_category_field_if_categories_are_defined
+    Issue.update_all :category_id => nil
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'table.attributes .category'
+  end
+
+  def test_show_should_not_display_category_field_if_no_categories_are_defined
+    Project.find(1).issue_categories.delete_all
+
+    get :show, :id => 1
+    assert_response :success
+    assert_select 'table.attributes .category', 0
   end
 
   def test_show_should_display_link_to_the_assignee
@@ -3078,6 +3094,22 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, issue.project_id
     assert_equal 2, issue.tracker_id
     assert_equal 'This is the test_new issue', issue.subject
+  end
+
+  def test_update_form_should_keep_category_with_same_when_changing_project
+    source = Project.generate!
+    target = Project.generate!
+    source_category = IssueCategory.create!(:name => 'Foo', :project => source)
+    target_category = IssueCategory.create!(:name => 'Foo', :project => target)
+    issue = Issue.generate!(:project => source, :category => source_category)
+
+    @request.session[:user_id] = 1
+    patch :edit, :id => issue.id,
+      :issue => {:project_id => target.id, :category_id => source_category.id}
+    assert_response :success
+
+    issue = assigns(:issue)
+    assert_equal target_category, issue.category
   end
 
   def test_update_form_should_propose_default_status_for_existing_issue

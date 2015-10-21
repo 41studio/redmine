@@ -26,6 +26,8 @@ module ApplicationHelper
   include GravatarHelper::PublicMethods
   include Redmine::Pagination::Helper
   include Redmine::SudoMode::Helper
+  include Redmine::Themes::Helper
+  include Redmine::Hook::Helper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -609,7 +611,7 @@ module ApplicationHelper
       parsed << text
       if tag
         if closing
-          if tags.last.casecmp(tag) == 0
+          if tags.last && tags.last.casecmp(tag) == 0
             tags.pop
           end
         else

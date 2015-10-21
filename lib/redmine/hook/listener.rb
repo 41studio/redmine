@@ -15,30 +15,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class ProjectEnumerationsController < ApplicationController
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+module Redmine
+  module Hook
+    # Base class for hook listeners.
+    class Listener
+      include Singleton
+      include Redmine::I18n
 
-  def update
-    if params[:enumerations]
-      saved = Project.transaction do
-        params[:enumerations].each do |id, activity|
-          @project.update_or_create_time_entry_activity(id, activity)
-        end
-      end
-      if saved
-        flash[:notice] = l(:notice_successful_update)
+      # Registers the listener
+      def self.inherited(child)
+        Redmine::Hook.add_listener(child)
+        super
       end
     end
-
-    redirect_to settings_project_path(@project, :tab => 'activities')
-  end
-
-  def destroy
-    @project.time_entry_activities.each do |time_entry_activity|
-      time_entry_activity.destroy(time_entry_activity.parent)
-    end
-    flash[:notice] = l(:notice_successful_update)
-    redirect_to settings_project_path(@project, :tab => 'activities')
   end
 end
