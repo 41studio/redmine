@@ -24,6 +24,7 @@ gem 'gemoji', "1.5.0"
 
 gem 'le'
 
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.3.1"
@@ -98,6 +99,23 @@ group :development do
   gem 'capistrano-rails', '~> 1.1', require:false
   gem 'capistrano-passenger', require:false
   gem 'capistrano-bundler', '~> 1.1.2', require:false
+
+  group :chart do
+    gem 'bourbon', require:false
+    gem 'database_cleaner', require:false
+    gem 'fuubar', require:false
+    gem 'headless', require:false
+    gem 'inifile', require:false
+    gem 'pry', require:false
+    gem 'pry-nav', require:false
+    gem 'rspec', '~> 3.0', require:false
+    gem 'rspec-rails', require:false
+    gem 'sass', require:false
+    gem 'slim', require:false
+    gem 'test-unit', require:false
+    gem 'transifex-ruby-fork-jg', '0.1.0', require:false
+  end
+
 end
 
 group :test do
