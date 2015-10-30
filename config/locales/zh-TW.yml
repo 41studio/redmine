@@ -714,10 +714,6 @@
   label_open_issues_plural: 進行中
   label_closed_issues: 已結束
   label_closed_issues_plural: 已結束
-  label_x_open_issues_abbr_on_total:
-    zero:  0 進行中 / 共 %{total}
-    one:   1 進行中 / 共 %{total}
-    other: "%{count} 進行中 / 共 %{total}"
   label_x_open_issues_abbr:
     zero:  0 進行中
     one:   1 進行中
@@ -1253,3 +1249,6 @@
   text_repository_identifier_info: '僅允許使用小寫英文字母 (a-z), 阿拉伯數字, 虛線與底線。<br />一旦儲存之後, 代碼便無法再次被更改。'
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

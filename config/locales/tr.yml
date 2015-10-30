@@ -433,10 +433,6 @@ tr:
   label_open_issues_plural: açık
   label_closed_issues: kapalı
   label_closed_issues_plural: kapalı
-  label_x_open_issues_abbr_on_total:
-    zero:  tamamı kapalı, toplam %{total}
-    one:   1'i' açık, toplam %{total}
-    other: "%{count} açık, toplam %{total}"
   label_x_open_issues_abbr:
     zero:  hiç açık yok
     one:   1 açık
@@ -1188,3 +1184,6 @@ tr:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

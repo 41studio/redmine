@@ -646,10 +646,6 @@ sv:
   label_open_issues_plural: öppna
   label_closed_issues: stängd
   label_closed_issues_plural: stängda
-  label_x_open_issues_abbr_on_total:
-    zero:  0 öppna av %{total}
-    one:   1 öppen av %{total}
-    other: "%{count} öppna av %{total}"
   label_x_open_issues_abbr:
     zero:  0 öppna
     one:   1 öppen
@@ -1212,3 +1208,6 @@ sv:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

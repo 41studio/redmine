@@ -120,11 +120,11 @@
         </ul>
 
         <ul>
-            <li>Forums:
+            <li>フォーラム:
                 <ul>
-                    <li><strong>forum#1</strong> (link to forum with id 1</li>
-                    <li><strong>forum:Support</strong> (link to forum named Support)</li>
-                    <li><strong>forum:"Technical Support"</strong> (use double quotes if forum name contains spaces)</li>
+                    <li><strong>forum#1</strong> (id 1のフォーラムへのリンク)</li>
+                    <li><strong>forum:Support</strong> ("Support"という名前のフォーラムへのリンク)</li>
+                    <li><strong>forum:"Technical Support"</strong> (フォーラム名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul></li>
         </ul>
 
@@ -140,16 +140,16 @@
                 <ul>
                     <li><strong>project#3</strong> (id 3のプロジェクトへのリンク)</li>
                     <li><strong>project:someproject</strong> ("someproject"という名前のプロジェクトへのリンク)</li>
-                    <li><strong>project:"some project"</strong> (use double quotes if project name contains spaces)</li>
+                    <li><strong>project:"some project"</strong> (プロジェクト名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul></li>
         </ul>
 
         <ul>
-            <li>News:
+            <li>ニュース:
                 <ul>
-                    <li><strong>news#2</strong> (link to news item with id 2)</li>
-                    <li><strong>news:Greetings</strong> (link to news item named "Greetings")</li>
-                    <li><strong>news:"First Release"</strong> (use double quotes if news item name contains spaces)</li>
+                    <li><strong>news#2</strong> (id 2のニュースへのリンク)</li>
+                    <li><strong>news:Greetings</strong> ("Greetings"というタイトルのニュースへのリンク)</li>
+                    <li><strong>news:"First Release"</strong> (タイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
                 </ul></li>
         </ul>
 
@@ -301,9 +301,9 @@ To go live, all you need to add is a database and a web server.
 
     <h2><a name="13" class="wiki-page"></a>コードハイライト</h2>
 
-    <p>Redmineのコードハイライトは <a href="http://coderay.rubychan.de/" class="external">CodeRay</a> という、Rubyで記述された高速なライブラリを使用しています。It currently supports c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml and yaml (yml) languages, where the names inside parentheses are aliases.</p>
+    <p>Redmineのコードハイライトは <a href="http://coderay.rubychan.de/" class="external">CodeRay</a> という、Rubyで記述された高速なライブラリを使用しています。現時点では c, clojure, cpp (c++, cplusplus), css, delphi (pascal), diff (patch), erb (eruby, rhtml), go, groovy, haml, html (xhtml), java, javascript (ecmascript, ecma_script, java_script, js), json, lua, php, python, ruby (irb), sass, sql, taskpaper, text (plain, plaintext), xml, yaml (yml) に対応しています。括弧内の名前はコードハイライトの指定時に利用できる別名です。</p>
 
-    <p>You can highlight code at any place that supports wiki formatting using this syntax (note that the language name or alias is case-insensitive):</p>
+    <p>Wiki記法に対応している箇所であればどこでも以下の記述によりコードハイライトが利用できます (言語名・別名には大文字・小文字の区別はありません):</p>
 
 <pre>
 &lt;pre&gt;&lt;code class="ruby"&gt;

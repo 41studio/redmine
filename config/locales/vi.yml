@@ -480,10 +480,6 @@ vi:
   label_open_issues_plural: mở
   label_closed_issues: đóng
   label_closed_issues_plural: đóng
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 mở / %{total}"
-    one:   "1 mở / %{total}"
-    other: "%{count} mở / %{total}"
   label_x_open_issues_abbr:
     zero:  0 mở
     one:   1 mở
@@ -1232,3 +1228,6 @@ vi:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

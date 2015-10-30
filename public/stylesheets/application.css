@@ -77,8 +77,8 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 #sidebar .contextual { margin-right: 1em; }
-#sidebar ul {margin: 0;  padding: 0;}
-#sidebar ul li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+#sidebar ul, ul.flat {margin: 0;  padding: 0;}
+#sidebar ul li, ul.flat li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
 
 #content { width: 75%; background-color: #fff; margin: 0px; border-right: 1px solid #ddd; padding: 6px 10px 10px 10px; z-index: 10; }
 * html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
@@ -353,6 +353,7 @@ div.issue span.private, div.journal span.private { position:relative; bottom: 2p
 div.issue .next-prev-links {color:#999;}
 div.issue table.attributes th {width:22%;}
 div.issue table.attributes td {width:28%;}
+div.issue.issue.overdue td.due-date { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
@@ -374,6 +375,7 @@ fieldset#filters td.values select {min-width:130px;}
 fieldset#filters td.values input {height:1em;}
 fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 
+#issue_is_private_wrap {float:right; margin-right:1em;}
 .toggle-multiselect {background: url(../images/bullet_toggle_plus.png) no-repeat 0% 40%; padding-left:8px; margin-left:0; cursor:pointer;}
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
@@ -482,6 +484,7 @@ select.expandable {vertical-align:top;}
 
 textarea#custom_field_possible_values {width: 95%; resize:vertical}
 textarea#custom_field_default_value {width: 95%; resize:vertical}
+.sort-handle {display:inline-block; vertical-align:middle;}
 
 input#content_comments {width: 99%}
 
@@ -599,7 +602,8 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 
 div.thumbnails {margin-top:0.6em;}
 div.thumbnails div {background:#fff;border:2px solid #ddd;display:inline-block;margin-right:2px;}
-div.thumbnails img {margin: 3px;}
+div.thumbnails img {margin: 3px; vertical-align: middle;}
+#history div.thumbnails {margin-left: 2em;}
 
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }

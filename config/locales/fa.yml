@@ -548,10 +548,6 @@ fa:
   label_open_issues_plural: باز
   label_closed_issues: بسته
   label_closed_issues_plural: بسته
-  label_x_open_issues_abbr_on_total:
-    zero:  0 باز از %{total}
-    one:   1 باز از %{total}
-    other: "%{count} باز از %{total}"
   label_x_open_issues_abbr:
     zero:  0 باز
     one:   1 باز
@@ -1180,3 +1176,6 @@ fa:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

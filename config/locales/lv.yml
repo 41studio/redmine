@@ -519,10 +519,6 @@ lv:
   label_open_issues_plural: atvērti
   label_closed_issues: slēgts
   label_closed_issues_plural: slēgti
-  label_x_open_issues_abbr_on_total:
-    zero:  0 atvērti / %{total}
-    one:   1 atvērts / %{total}
-    other: "%{count} atvērti / %{total}"
   label_x_open_issues_abbr:
     zero:  0 atvērti
     one:   1 atvērts
@@ -1173,3 +1169,6 @@ lv:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

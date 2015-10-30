@@ -553,10 +553,6 @@ zh:
   label_open_issues_plural: 打开
   label_closed_issues: 已关闭
   label_closed_issues_plural: 已关闭
-  label_x_open_issues_abbr_on_total:
-    zero:  0 打开 / %{total}
-    one:   1 打开 / %{total}
-    other: "%{count} 打开 / %{total}"
   label_x_open_issues_abbr:
     zero:  0 打开
     one:   1 打开
@@ -1180,3 +1176,6 @@ zh:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

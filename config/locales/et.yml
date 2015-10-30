@@ -598,10 +598,6 @@ et:
   label_open_issues_plural: "avatud"
   label_closed_issues: "suletud"
   label_closed_issues_plural: "suletud"
-  label_x_open_issues_abbr_on_total:
-    zero:  "0 avatud / %{total}"
-    one:   "1 avatud / %{total}"
-    other: "%{count} avatud / %{total}"
   label_x_open_issues_abbr:
     zero:  "0 avatud"
     one:   "1 avatud"
@@ -1192,3 +1188,6 @@ et:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

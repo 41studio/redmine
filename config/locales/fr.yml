@@ -592,6 +592,7 @@ fr:
   label_logout: Déconnexion
   label_help: Aide
   label_reported_issues: Demandes soumises
+  label_assigned_issues: Demandes assignées
   label_assigned_to_me_issues: Demandes qui me sont assignées
   label_last_login: Dernière connexion
   label_registered_on: Inscrit le
@@ -649,10 +650,6 @@ fr:
   label_open_issues_plural: ouverts
   label_closed_issues: fermé
   label_closed_issues_plural: fermés
-  label_x_open_issues_abbr_on_total:
-    zero:  0 ouverte sur %{total}
-    one:   1 ouverte sur %{total}
-    other: "%{count} ouvertes sur %{total}"
   label_x_open_issues_abbr:
     zero:  0 ouverte
     one:   1 ouverte
@@ -780,6 +777,7 @@ fr:
   label_overall_spent_time: Temps passé global
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
+  label_f_hour_short: "%{value} h"
   label_time_tracking: Suivi du temps
   label_change_plural: Changements
   label_statistics: Statistiques
@@ -991,6 +989,7 @@ fr:
   label_file_content_preview: Aperçu du contenu du fichier
   label_create_missing_values: Créer les valeurs manquantes
   label_api: API
+  label_field_format_enumeration: Liste clé/valeur
 
   button_login: Connexion
   button_submit: Soumettre
@@ -1109,7 +1108,7 @@ fr:
   text_assign_time_entries_to_project: Reporter les heures sur le projet
   text_reassign_time_entries: 'Reporter les heures sur cette demande:'
   text_user_wrote: "%{value} a écrit :"
-  text_enumeration_destroy_question: "Cette valeur est affectée à %{count} objets."
+  text_enumeration_destroy_question: "La valeur « %{name} » est affectée à %{count} objet(s)."
   text_enumeration_category_reassign_to: 'Réaffecter les objets à cette valeur:'
   text_email_delivery_not_configured: "L'envoi de mail n'est pas configuré, les notifications sont désactivées.\nConfigurez votre serveur SMTP dans config/configuration.yml et redémarrez l'application pour les activer."
   text_repository_usernames_mapping: "Vous pouvez sélectionner ou modifier l'utilisateur Redmine associé à chaque nom d'utilisateur figurant dans l'historique du dépôt.\nLes utilisateurs avec le même identifiant ou la même adresse mail seront automatiquement associés."

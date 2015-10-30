@@ -525,10 +525,6 @@ mn:
   label_open_issues_plural: нээлттэй
   label_closed_issues: хаалттай
   label_closed_issues_plural: хаалттай
-  label_x_open_issues_abbr_on_total:
-    zero:  0 нээлттэй / %{total}
-    one:   1 нээлттэй / %{total}
-    other: "%{count} нээлттэй / %{total}"
   label_x_open_issues_abbr:
     zero:  0 нээлттэй
     one:   1 нээлттэй
@@ -1180,3 +1176,6 @@ mn:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

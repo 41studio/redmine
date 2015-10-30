@@ -572,10 +572,6 @@ ar:
   label_open_issues_plural: بنود عمل مفتوحة
   label_closed_issues: مغلق
   label_closed_issues_plural: بنود عمل مغلقة
-  label_x_open_issues_abbr_on_total:
-    zero: 0 مفتوح / %{total}
-    one: 1 مفتوح / %{total}
-    other: "%{count} مفتوح / %{total}"
   label_x_open_issues_abbr:
     zero: 0 مفتوح
     one: 1 مقتوح
@@ -1179,3 +1175,6 @@ ar:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
+  label_assigned_issues: Assigned issues
+  label_field_format_enumeration: Key/value list
+  label_f_hour_short: '%{value} h'

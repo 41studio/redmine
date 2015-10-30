@@ -418,6 +418,22 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 0, Issue.fixed_version([]).count
   end
 
+  def test_assigned_to_scope_should_return_issues_assigned_to_the_user
+    user = User.generate!
+    issue = Issue.generate!
+    Issue.where(:id => issue.id).update_all :assigned_to_id => user.id
+    assert_equal [issue], Issue.assigned_to(user).to_a
+  end
+
+  def test_assigned_to_scope_should_return_issues_assigned_to_the_user_groups
+    group = Group.generate!
+    user = User.generate!
+    group.users << user
+    issue = Issue.generate!
+    Issue.where(:id => issue.id).update_all :assigned_to_id => group.id
+    assert_equal [issue], Issue.assigned_to(user).to_a
+  end
+
   def test_errors_full_messages_should_include_custom_fields_errors
     field = IssueCustomField.find_by_name('Database')
 
@@ -908,6 +924,30 @@ class IssueTest < ActiveSupport::TestCase
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Required fields', :author => user)
     assert issue.save
+  end
+
+  def test_category_should_not_be_required_if_project_has_no_categories
+    Project.find(1).issue_categories.delete_all
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+      :role_id => 1, :field_name => 'category_id',:rule => 'required')
+    user = User.find(2)
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert_save issue
+  end
+
+  def test_fixed_version_should_not_be_required_no_assignable_versions
+    Version.delete_all
+    WorkflowPermission.delete_all
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+      :role_id => 1, :field_name => 'fixed_version_id',:rule => 'required')
+    user = User.find(2)
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
+                      :subject => 'Required fields', :author => user)
+    assert_save issue
   end
 
   def test_required_custom_field_that_is_not_visible_for_the_user_should_not_be_required
