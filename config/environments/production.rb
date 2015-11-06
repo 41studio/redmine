@@ -22,4 +22,6 @@ Rails.application.configure do
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  config.action_controller.asset_host = "http://d1sssa9fhc5k60.cloudfront.net"
 end
