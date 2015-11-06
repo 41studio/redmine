@@ -473,10 +473,13 @@ function randomKey(size) {
   return key;
 }
 
-function updateIssueFrom(url) {
+function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());
   });
+  if (el) {
+    $("#form_update_triggered_by").val($(el).attr('id'));
+  }
   return $.ajax({
     url: url,
     type: 'post',
@@ -650,6 +653,17 @@ $(document).ready(function(){
   $('#content').on('change', 'input[data-disables], input[data-enables]', toggleDisabledOnChange);
   toggleDisabledInit();
 });
+
+function keepAnchorOnSignIn(form){
+  var hash = decodeURIComponent(self.document.location.hash);
+  if (hash) {
+    if (hash.indexOf("#") === -1) {
+      hash = "#" + hash;
+    }
+    form.action = form.action + hash;
+  }
+  return true;
+}
 
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);

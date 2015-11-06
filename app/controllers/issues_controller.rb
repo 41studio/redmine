@@ -376,7 +376,7 @@ class IssuesController < ApplicationController
   def update_issue_from_params
     @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
     if params[:time_entry]
-      @time_entry.attributes = params[:time_entry]
+      @time_entry.safe_attributes = params[:time_entry]
     end
 
     @issue.init_journal(User.current)
@@ -430,6 +430,11 @@ class IssuesController < ApplicationController
     attrs = (params[:issue] || {}).deep_dup
     if action_name == 'new' && params[:was_default_status] == attrs[:status_id]
       attrs.delete(:status_id)
+    end
+    if action_name == 'new' && params[:form_update_triggered_by] == 'issue_project_id'
+      # Discard submitted version when changing the project on the issue form
+      # so we can use the default version for the new project
+      attrs.delete(:fixed_version_id)
     end
     @issue.safe_attributes = attrs
 

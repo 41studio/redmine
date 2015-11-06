@@ -336,6 +336,20 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml should not disclose associated changesets from projects the user has no access to" do
+    project = Project.generate!(:is_public => false)
+    repository = Repository::Subversion.create!(:project => project, :url => "svn://localhost")
+    Issue.find(1).changesets << Changeset.generate!(:repository => repository)
+    assert Issue.find(1).changesets.any?
+
+    get '/issues/1.xml?include=changesets', {}, credentials('jsmith')
+
+    # the user jsmith has no permission to view the associated changeset
+    assert_select 'issue changesets[type=array]' do
+      assert_select 'changeset', 0
+    end
+  end
+
   test "POST /issues.xml should create an issue with the attributes" do
 
 payload = <<-XML
@@ -435,6 +449,28 @@ JSON
     assert_equal ["V1", "V3"], issue.custom_field_value(field).sort
   end
 
+  test "POST /issues.json with omitted custom field should set default value" do
+    field = IssueCustomField.generate!(:default_value => "Default")
+
+    issue = new_record(Issue) do
+      post '/issues.json',
+        {:issue => {:project_id => 1, :subject => 'API', :custom_field_values => {}}},
+        credentials('jsmith')
+    end
+    assert_equal "Default", issue.custom_field_value(field)
+  end
+
+  test "POST /issues.json with custom field set to blank should not set default value" do
+    field = IssueCustomField.generate!(:default_value => "Default")
+
+    issue = new_record(Issue) do
+      post '/issues.json',
+        {:issue => {:project_id => 1, :subject => 'API', :custom_field_values => {field.id.to_s => ""}}},
+        credentials('jsmith')
+    end
+    assert_equal "", issue.custom_field_value(field)
+  end
+
   test "POST /issues.json with failure should return errors" do
     assert_no_difference('Issue.count') do
       post '/issues.json', {:issue => {:project_id => 1}}, credentials('jsmith')
@@ -510,6 +546,62 @@ JSON
 
     journal = Journal.last
     assert_equal "Notes only", journal.notes
+  end
+
+  test "PUT /issues/:id.json with omitted custom field should not change blank value to default value" do
+    field = IssueCustomField.generate!(:default_value => "Default")
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => ""})
+    assert_equal "", issue.reload.custom_field_value(field)
+
+    assert_difference('Journal.count') do
+      put "/issues/#{issue.id}.json",
+        {:issue => {:custom_field_values => {}, :notes => 'API'}},
+        credentials('jsmith')
+    end
+
+    assert_equal "", issue.reload.custom_field_value(field)
+  end
+
+  test "PUT /issues/:id.json with custom field set to blank should not change blank value to default value" do
+    field = IssueCustomField.generate!(:default_value => "Default")
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => ""})
+    assert_equal "", issue.reload.custom_field_value(field)
+
+    assert_difference('Journal.count') do
+      put "/issues/#{issue.id}.json",
+        {:issue => {:custom_field_values => {field.id.to_s => ""}, :notes => 'API'}},
+        credentials('jsmith')
+    end
+
+    assert_equal "", issue.reload.custom_field_value(field)
+  end
+
+  test "PUT /issues/:id.json with tracker change and omitted custom field specific to that tracker should set default value" do
+    field = IssueCustomField.generate!(:default_value => "Default", :tracker_ids => [2])
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
+
+    assert_difference('Journal.count') do
+      put "/issues/#{issue.id}.json",
+        {:issue => {:tracker_id => 2, :custom_field_values => {}, :notes => 'API'}},
+        credentials('jsmith')
+    end
+
+    assert_equal 2, issue.reload.tracker_id
+    assert_equal "Default", issue.reload.custom_field_value(field)
+  end
+
+  test "PUT /issues/:id.json with tracker change and custom field specific to that tracker set to blank should not set default value" do
+    field = IssueCustomField.generate!(:default_value => "Default", :tracker_ids => [2])
+    issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
+
+    assert_difference('Journal.count') do
+      put "/issues/#{issue.id}.json",
+        {:issue => {:tracker_id => 2, :custom_field_values => {field.id.to_s => ""}, :notes => 'API'}},
+        credentials('jsmith')
+    end
+
+    assert_equal 2, issue.reload.tracker_id
+    assert_equal "", issue.reload.custom_field_value(field)
   end
 
   test "PUT /issues/:id.xml with failed update" do

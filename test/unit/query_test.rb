@@ -182,6 +182,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_operator_none_for_string_custom_field
+    CustomField.find(2).update_attribute :default_value, ""
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('cf_2', '!*', [''])
     assert query.has_filter?('cf_2')
@@ -709,7 +710,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_filter_on_custom_field_should_ignore_projects_with_field_disabled
-    field = IssueCustomField.generate!(:trackers => Tracker.all, :project_ids => [1, 3, 4], :is_filter => true)
+    field = IssueCustomField.generate!(:trackers => Tracker.all, :project_ids => [1, 3, 4], :is_for_all => false, :is_filter => true)
     Issue.generate!(:project_id => 3, :tracker_id => 2, :custom_field_values => {field.id.to_s => 'Foo'})
     Issue.generate!(:project_id => 4, :tracker_id => 2, :custom_field_values => {field.id.to_s => 'Foo'})
 

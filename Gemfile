@@ -27,7 +27,7 @@ gem 'le'
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem "net-ldap", "~> 0.3.1"
+  gem "net-ldap", "~> 0.12.0"
 end
 
 # Optional gem for OpenID authentication
