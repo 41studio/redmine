@@ -276,7 +276,7 @@ DEPENDENCIES
   rack-openid
   rails (= 4.2.4)
   rails-dom-testing
-  rbpdf (~> 1.18.6)
+  rbpdf (~> 1.18.7)
   rdoc (>= 2.4.2)
   redcarpet (~> 3.3.2)
   request_store (= 1.0.5)
