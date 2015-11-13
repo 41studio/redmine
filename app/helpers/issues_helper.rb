@@ -114,7 +114,7 @@ module IssuesHelper
              content_tag('td', link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
              content_tag('td', h(child.status)) +
              content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+             content_tag('td', progress_bar(child.done_ratio)),
              :class => css)
     end
     s << '</table></form>'
@@ -189,18 +189,18 @@ module IssuesHelper
     end
 
     def to_html
-      html = ''.html_safe
-      blank = content_tag('th', '') + content_tag('td', '')
-      size.times do |i|
-        left = @left[i] || blank
-        right = @right[i] || blank
-        html << content_tag('tr', left + right)
-      end
-      html
+      content =
+        content_tag('div', @left.reduce(&:+), :class => 'splitcontentleft') +
+        content_tag('div', @right.reduce(&:+), :class => 'splitcontentleft')
+
+      content_tag('div', content, :class => 'splitcontent')
     end
 
     def cells(label, text, options={})
-      content_tag('th', "#{label}:", options) + content_tag('td', text, options)
+      options[:class] = [options[:class] || "", 'attribute'].join(' ')
+      content_tag 'div',
+        content_tag('div', label + ":", :class => 'label') + content_tag('div', text, :class => 'value'),
+        options
     end
   end
 
@@ -213,22 +213,14 @@ module IssuesHelper
   def render_custom_fields_rows(issue)
     values = issue.visible_custom_field_values
     return if values.empty?
-    ordered_values = []
     half = (values.size / 2.0).ceil
-    half.times do |i|
-      ordered_values << values[i]
-      ordered_values << values[i + half]
+    issue_fields_rows do |rows|
+      values.each_with_index do |value, i|
+        css = "cf_#{value.custom_field.id}"
+        m = (i < half ? :left : :right)
+        rows.send m, custom_field_name_tag(value.custom_field), show_value(value), :class => css
+      end
     end
-    s = "<tr>\n"
-    n = 0
-    ordered_values.compact.each do |value|
-      css = "cf_#{value.custom_field.id}"
-      s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th class=\"#{css}\">#{ custom_field_name_tag(value.custom_field) }:</th><td class=\"#{css}\">#{ h(show_value(value)) }</td>\n"
-      n += 1
-    end
-    s << "</tr>\n"
-    s.html_safe
   end
 
   # Returns the path for updating the issue form

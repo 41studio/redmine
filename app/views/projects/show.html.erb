@@ -23,6 +23,7 @@
     <%= textilizable @project.description %>
   </div>
   <% end %>
+  <% if @project.homepage.present? || @subprojects.any? || @project.visible_custom_field_values.any?(&:present?) %>
   <ul>
   <% unless @project.homepage.blank? %>
     <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to @project.homepage, @project.homepage %></li>
@@ -35,10 +36,12 @@
     <li><span class="label"><%= custom_field.name %>:</span> <%= formatted %></li>
   <% end %>
   </ul>
+  <% end %>
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
     <h3><%=l(:label_issue_tracking)%></h3>
+    <% if @trackers.present? %>
     <table class="list issue-report">
       <thead>
         <tr>
@@ -67,6 +70,7 @@
       <% end %>
       </tbody>
     </table>
+    <% end %>
     <p>
       <%= link_to l(:label_issue_view_all), project_issues_path(@project, :set_filter => 1) %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>

@@ -538,10 +538,6 @@
   label_blocked_by: blokkert av
   label_precedes: kommer før
   label_follows: følger
-  label_end_to_start: slutt til start
-  label_end_to_end: slutt til slutt
-  label_start_to_start: start til start
-  label_start_to_end: start til slutt
   label_stay_logged_in: Hold meg innlogget
   label_disabled: avslått
   label_show_completed_versions: Vis ferdige versjoner
@@ -1172,3 +1168,5 @@
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

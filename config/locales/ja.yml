@@ -542,7 +542,7 @@ ja:
   label_subproject_new: 新しいサブプロジェクト
   label_and_its_subprojects: "%{value} とサブプロジェクト"
   label_min_max_length: 最短 - 最大長
-  label_list: リストから選択
+  label_list: リスト
   label_date: 日付
   label_integer: 整数
   label_float: 小数
@@ -718,10 +718,6 @@ ja:
   label_blocked_by: ブロックされている
   label_precedes: 次のチケットに先行
   label_follows: 次のチケットに後続
-  label_end_to_start: 最後-最初
-  label_end_to_end: 最後-最後
-  label_start_to_start: 最初-最初
-  label_start_to_end: 最初-最後
   label_stay_logged_in: ログインを維持
   label_disabled: 無効
   label_show_completed_versions: 完了したバージョンを表示
@@ -1189,9 +1185,11 @@ ja:
   label_api: API
   label_total_plural: 合計
   label_assigned_issues: 担当しているチケット
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
+  label_field_format_enumeration: キー・バリュー リスト
+  label_f_hour_short: '%{value}時間'
+  field_default_version: デフォルトのバージョン
+  error_attachment_extension_not_allowed: 拡張子が %{extension} のファイルの添付は禁止されています
+  setting_attachment_extensions_allowed: 許可する拡張子
+  setting_attachment_extensions_denied: 禁止する拡張子
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

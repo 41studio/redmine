@@ -503,10 +503,6 @@ uk:
   label_blocked_by: заблоковане
   label_precedes: передує
   label_follows: наступний за
-  label_end_to_start: з кінця до початку
-  label_end_to_end: з кінця до кінця
-  label_start_to_start: з початку до початку
-  label_start_to_end: з початку до кінця
   label_stay_logged_in: Залишатися в системі
   label_disabled: відключений
   label_show_completed_versions: Показати завершені версії
@@ -1177,3 +1173,5 @@ uk:
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

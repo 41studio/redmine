@@ -798,10 +798,6 @@ sv:
   label_follows: Följer
   label_copied_to: Kopierad till
   label_copied_from: Kopierad från
-  label_end_to_start: slut till start
-  label_end_to_end: slut till slut
-  label_start_to_start: start till start
-  label_start_to_end: start till slut
   label_stay_logged_in: Förbli inloggad
   label_disabled: inaktiverad
   label_show_completed_versions: Visa färdiga versioner
@@ -1215,3 +1211,5 @@ sv:
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

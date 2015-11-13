@@ -695,10 +695,6 @@ en-GB:
   label_blocked_by: blocked by
   label_precedes: precedes
   label_follows: follows
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
   label_show_completed_versions: Show completed versions
@@ -1061,6 +1057,8 @@ en-GB:
   permission_view_private_notes: View private notes
   permission_set_notes_private: Set notes as private
   label_no_issues_in_project: no issues in project
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
   label_any: all
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks

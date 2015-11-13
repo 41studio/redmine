@@ -199,17 +199,13 @@ class IssueQuery < Query
       :type => :list_optional, :values => role_values
     ) unless role_values.empty?
 
-    if versions.any?
-      add_available_filter "fixed_version_id",
-        :type => :list_optional,
-        :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
-    end
+    add_available_filter "fixed_version_id",
+      :type => :list_optional,
+      :values => versions.sort.collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
 
-    if categories.any?
-      add_available_filter "category_id",
-        :type => :list_optional,
-        :values => categories.collect{|s| [s.name, s.id.to_s] }
-    end
+    add_available_filter "category_id",
+      :type => :list_optional,
+      :values => categories.collect{|s| [s.name, s.id.to_s] }
 
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text
@@ -535,6 +531,9 @@ class IssueQuery < Query
         op = (operator == "!p" ? 'NOT IN' : 'IN')
         comp = (operator == "=!p" ? '<>' : '=')
         "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{comp} #{value.first.to_i})"
+      when "*o", "!o"
+        op = (operator == "!o" ? 'NOT IN' : 'IN')
+        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{self.class.connection.quoted_false}))"
       end
 
     if relation_options[:sym] == field && !options[:reverse]

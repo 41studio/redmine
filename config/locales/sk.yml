@@ -542,10 +542,6 @@ sk:
   label_blocked_by: Zablokované používateľom
   label_precedes: Predchádza
   label_follows: Nasleduje po
-  label_end_to_start: od konca po začiatok
-  label_end_to_end: od konca do konca
-  label_start_to_start: od začiatku do začiatku
-  label_start_to_end: od začiatku do konca
   label_stay_logged_in: Zostať prihlásený
   label_disabled: zakázané
   label_show_completed_versions: Ukázať dokončené verzie
@@ -1172,3 +1168,5 @@ sk:
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

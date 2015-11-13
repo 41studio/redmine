@@ -340,6 +340,7 @@ module ApplicationHelper
         { :value => project_path(:id => p, :jump => current_menu_item) }
       end
 
+      content_tag( :span, nil, :class => 'jump-box-arrow') +
       select_tag('project_quick_jump_box', options, :onchange => 'if (this.value != \'\') { window.location = this.value; }')
     end
   end
@@ -1107,14 +1108,13 @@ module ApplicationHelper
     pcts = pcts.collect(&:round)
     pcts[1] = pcts[1] - pcts[0]
     pcts << (100 - pcts[1] - pcts[0])
-    width = options[:width] || '100px;'
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
         (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : ''.html_safe) +
         (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : ''.html_safe) +
         (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : ''.html_safe)
-      ), :class => "progress progress-#{pcts[0]}", :style => "width: #{width};").html_safe +
+      ), :class => "progress progress-#{pcts[0]}").html_safe +
       content_tag('p', legend, :class => 'percent').html_safe
   end
 
@@ -1142,7 +1142,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("$(function() { $('##{field_id}').datepicker(datepickerOptions); });")
+    javascript_tag("$(function() { $('##{field_id}').addClass('date').datepicker(datepickerOptions); });")
   end
 
   def include_calendar_headers_tags
@@ -1267,7 +1267,7 @@ module ApplicationHelper
 
   # Returns the javascript tags that are included in the html layout head
   def javascript_heads
-    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'application')
+    tags = javascript_include_tag('jquery-1.11.1-ui-1.11.0-ujs-3.1.4', 'application', 'responsive')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       tags << "\n".html_safe + javascript_tag("$(window).load(function(){ warnLeavingUnsaved('#{escape_javascript l(:text_warn_on_leaving_unsaved)}'); });")
     end

@@ -688,10 +688,6 @@ cs:
   label_blocked_by: blokován
   label_precedes: předchází
   label_follows: následuje
-  label_end_to_start: od konce do začátku
-  label_end_to_end: od konce do konce
-  label_start_to_start: od začátku do začátku
-  label_start_to_end: od začátku do konce
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
   label_show_completed_versions: Zobrazit dokončené verze
@@ -1183,3 +1179,5 @@ cs:
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues

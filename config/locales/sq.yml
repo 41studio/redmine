@@ -721,10 +721,6 @@ sq:
   label_blocked_by: blocked by
   label_precedes: precedes
   label_follows: follows
-  label_end_to_start: end to start
-  label_end_to_end: end to end
-  label_start_to_start: start to start
-  label_start_to_end: start to end
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
   label_show_completed_versions: Show completed versions
@@ -1178,3 +1174,5 @@ sq:
   error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
   setting_attachment_extensions_allowed: Allowed extensions
   setting_attachment_extensions_denied: Disallowed extensions
+  label_any_open_issues: any open issues
+  label_no_open_issues: no open issues
