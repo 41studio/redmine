@@ -1,0 +1,13 @@
+:verbose: false
+:pidfile: ./tmp/pids/sidekiq.pid
+:concurrency: 25
+# Set timeout to 8 on Heroku, longer if you manage your own systems.
+:timeout: 20
+:queues:
+  - [immediately, 7]
+  - [critical, 6]
+  - [high, 5]
+  - [default, 4]
+  - [searchkick, 3]
+  - [mailer, 2]
+  - [low, 1]
