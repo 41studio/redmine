@@ -320,10 +320,10 @@ class Mailer < ActionMailer::Base
   end
 
   def test_email(user_id)
-    user = User.find(user_id)
-    set_language_if_valid(user.language)
+    user_test = User.find(user_id)
+    set_language_if_valid(user_test.language)
     @url = url_for(:controller => 'welcome')
-    mail :to => user.mail,
+    mail :to => user_test.mail,
       :subject => 'Redmine test'
   end
 
