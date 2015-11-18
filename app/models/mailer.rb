@@ -23,7 +23,6 @@ class Mailer < ActionMailer::Base
   helper :issues
   helper :custom_fields
 
-  include Sidekiq::Mailer
   include Redmine::I18n
   include Roadie::Rails::Automatic
 
@@ -319,11 +318,10 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  def test_email(user_id)
-    user_test = User.find(user_id)
-    set_language_if_valid(user_test.language)
+  def test_email(user)
+    set_language_if_valid(user.language)
     @url = url_for(:controller => 'welcome')
-    mail :to => user_test.mail,
+    mail :to => user.mail,
       :subject => 'Redmine test'
   end
 

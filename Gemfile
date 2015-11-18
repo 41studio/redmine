@@ -24,12 +24,6 @@ gem 'gemoji', "1.5.0"
 
 gem 'le'
 
-gem 'sidekiq'
-gem 'sidekiq-failures'
-gem 'sidekiq_mailer'
-gem 'sinatra', '>= 1.3.0', :require => nil
-
-
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.12.0"
@@ -100,6 +94,7 @@ group :development do
   gem "rdoc", ">= 2.4.2"
   gem "yard"
   gem "thin"
+  gem 'pry-byebug'
   gem 'capistrano',  '~> 3.1', require:false
   gem 'capistrano-rails', '~> 1.1', require:false
   gem 'capistrano-passenger', require:false
