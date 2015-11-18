@@ -24,6 +24,11 @@ gem 'gemoji', "1.5.0"
 
 gem 'le'
 
+gem 'sidekiq'
+gem 'sidekiq-failures'
+gem 'sidekiq_mailer'
+gem 'sinatra', '>= 1.3.0', :require => nil
+
 
 # Optional gem for LDAP authentication
 group :ldap do

@@ -23,6 +23,7 @@ class Mailer < ActionMailer::Base
   helper :issues
   helper :custom_fields
 
+  include Sidekiq::Mailer
   include Redmine::I18n
   include Roadie::Rails::Automatic
 
