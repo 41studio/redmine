@@ -714,8 +714,8 @@ ja:
   label_relates_to: 関連している
   label_duplicates: 次のチケットと重複
   label_duplicated_by: 次のチケットが重複
-  label_blocks: ブロックしている
-  label_blocked_by: ブロックされている
+  label_blocks: ブロック先
+  label_blocked_by: ブロック元
   label_precedes: 次のチケットに先行
   label_follows: 次のチケットに後続
   label_stay_logged_in: ログインを維持
@@ -1191,5 +1191,5 @@ ja:
   error_attachment_extension_not_allowed: 拡張子が %{extension} のファイルの添付は禁止されています
   setting_attachment_extensions_allowed: 許可する拡張子
   setting_attachment_extensions_denied: 禁止する拡張子
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  label_any_open_issues: 未完了のチケット
+  label_no_open_issues: なし または完了したチケット
