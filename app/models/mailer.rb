@@ -319,7 +319,8 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_register, Setting.app_title)
   end
 
-  def test_email(user)
+  def test_email(user_id)
+    user = User.find(user_id)
     set_language_if_valid(user.language)
     @url = url_for(:controller => 'welcome')
     mail :to => user.mail,
