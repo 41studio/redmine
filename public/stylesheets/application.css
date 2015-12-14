@@ -316,6 +316,9 @@ span.search_for_watchers a, span.add_attachment a {padding-left:16px; background
   word-wrap: break-word;
   border-radius: 3px;
 }
+.pagination .per-page span.selected {
+  font-weight: bold;
+}
 
 div.square {
   border: 1px solid #999;
@@ -506,6 +509,9 @@ span.pagination {margin-left:3px; color:#888;}
   border: 1px solid #ccc;
   margin-left: -1px;
   line-height: 2em;
+  margin-bottom: 1em;
+  white-space: nowrap;
+  text-align: center;
 }
 .pagination ul.pages li a,
 .pagination ul.pages li span {
@@ -532,6 +538,7 @@ span.pagination {margin-left:3px; color:#888;}
   color: inherit;
   text-decoration: inherit;
 }
+span.pagination>span {white-space:nowrap;}
 
 #search-form fieldset p {margin:0.2em 0;}
 
