@@ -188,7 +188,7 @@ sv:
   general_first_day_of_week: '1'
 
   notice_account_updated: Kontot har uppdaterats
-  notice_account_invalid_creditentials: Fel användarnamn eller lösenord
+  notice_account_invalid_credentials: Fel användarnamn eller lösenord
   notice_account_password_updated: Lösenordet har uppdaterats
   notice_account_wrong_password: Fel lösenord
   notice_account_register_done: Kontot har skapats. För att aktivera kontot, klicka på länken i mailet som skickades till dig.
@@ -1216,3 +1216,5 @@ sv:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API-nyckel
+  setting_lost_password: Glömt lösenord

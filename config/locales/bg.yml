@@ -147,7 +147,7 @@ bg:
   general_first_day_of_week: '1'
 
   notice_account_updated: Профилът е обновен успешно.
-  notice_account_invalid_creditentials: Невалиден потребител или парола.
+  notice_account_invalid_credentials: Невалиден потребител или парола.
   notice_account_password_updated: Паролата е успешно променена.
   notice_account_wrong_password: Грешна парола
   notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила
@@ -1174,3 +1174,5 @@ bg:
   description_date_to: Въведете крайна дата
   text_repository_identifier_info: 'Позволени са малки букви (a-z), цифри, тирета и _.<br />Промяна след създаването му не е възможна.'
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API ключ
+  setting_lost_password: Забравена парола

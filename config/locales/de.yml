@@ -848,10 +848,17 @@ de:
   mail_subject_reminder: "%{count} Tickets müssen in den nächsten %{days} Tagen abgegeben werden"
   mail_subject_wiki_content_added: "Wiki-Seite '%{id}' hinzugefügt"
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
+  mail_subject_security_notification: "Sicherheitshinweis"
+  mail_body_security_notification_change: "%{field} wurde geÃ¤ndert."
+  mail_body_security_notification_change_to: "%{field} wurde geÃ¤ndert zu %{value}."
+  mail_body_security_notification_add: "%{field} %{value} wurde hinzugefÃ¼gt."
+  mail_body_security_notification_remove: "%{field} %{value} wurde entfernt."
+  mail_body_security_notification_notify_enabled: "E-Mail-Adresse %{value} erhält nun Benachrichtigungen."
+  mail_body_security_notification_notify_disabled: "E-Mail-Adresse %{value} erhält keine Benachrichtigungen mehr."
 
   notice_account_activated: Ihr Konto ist aktiviert. Sie können sich jetzt anmelden.
   notice_account_deleted: Ihr Benutzerkonto wurde unwiderruflich gelöscht.
-  notice_account_invalid_creditentials: Benutzer oder Kennwort ist ungültig.
+  notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Kennwort zu wählen, wurde Ihnen geschickt.
   notice_account_locked: Ihr Konto ist gesperrt.
   notice_account_not_activated_yet: Sie haben Ihr Konto noch nicht aktiviert. Wenn Sie die Aktivierungsmail erneut erhalten wollen, <a href="%{url}">klicken Sie bitte hier</a>.
@@ -1013,7 +1020,8 @@ de:
   setting_login_required: Authentifizierung erforderlich
   setting_mail_from: E-Mail-Absender
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
-  setting_mail_handler_api_key: API-Schlüssel
+  setting_mail_handler_api_key: API-Schlüssel für eingehende E-Mails
+  setting_sys_api_key: API-Schlüssel für Webservice zur Projektarchiv-Verwaltung
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_mail_handler_excluded_filenames: Anhänge nach Namen ausschließen
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
@@ -1021,6 +1029,7 @@ de:
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Kennworts
   setting_password_max_age: Erzwinge Passwortwechsel nach
+  setting_lost_password: Erlaube Passwort-Zurücksetzen per E-Mail
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
@@ -1148,6 +1157,7 @@ de:
   error_password_expired: Your password has expired or the administrator requires you
     to change it.
   field_time_entries_visibility: Time logs visibility
+  field_remote_ip: IP-Adresse
   label_parent_task_attributes: Parent tasks attributes
   label_parent_task_attributes_derived: Calculated from subtasks
   label_parent_task_attributes_independent: Independent of subtasks

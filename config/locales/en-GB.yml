@@ -150,7 +150,7 @@ en-GB:
   general_first_day_of_week: '1'
 
   notice_account_updated: Account was successfully updated.
-  notice_account_invalid_creditentials: Invalid user or password
+  notice_account_invalid_credentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.
   notice_account_wrong_password: Wrong password
   notice_account_register_done: Account was successfully created. An email containing the instructions to activate your account was sent to %{email}.
@@ -1185,3 +1185,5 @@ en-GB:
   setting_attachment_extensions_denied: Disallowed extensions
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API key
+  setting_lost_password: Lost password

@@ -544,9 +544,9 @@ ru:
   label_language_based: На основе языка
   label_last_changes: "менее %{count} изменений"
   label_last_login: Последнее подключение
-  label_last_month: последний месяц
+  label_last_month: прошлый месяц
   label_last_n_days: "последние %{count} дней"
-  label_last_week: последняя неделя
+  label_last_week: прошлая неделя
   label_latest_revision: Последняя редакция
   label_latest_revision_plural: Последние редакции
   label_ldap_authentication: Авторизация с помощью LDAP
@@ -751,7 +751,7 @@ ru:
   mail_subject_reminder: "%{count} назначенных на Вас задач в ближайшие %{days} дней"
 
   notice_account_activated: Ваша учётная запись активирована. Вы можете войти.
-  notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
+  notice_account_invalid_credentials: Неправильное имя пользователя или пароль
   notice_account_lost_email_sent: Вам отправлено письмо с инструкциями по выбору нового пароля.
   notice_account_password_updated: Пароль успешно обновлён.
   notice_account_pending: "Ваша учётная запись создана и ожидает подтверждения администратора."
@@ -1163,10 +1163,10 @@ ru:
   label_no_issues_in_project: нет задач в проекте
   label_any: все
   label_last_n_weeks:
-    one:   "последняя %{count} неделя"
-    few:   "последние %{count} недели"
-    many:  "последние %{count} недель"
-    other: "последние %{count} недели"
+    one:   "прошлая %{count} неделя"
+    few:   "прошлые %{count} недели"
+    many:  "прошлые %{count} недель"
+    other: "прошлые %{count} недели"
   setting_cross_project_subtasks: Разрешить подзадачи между проектами
   label_cross_project_descendants: С подпроектами
   label_cross_project_tree: С деревом проектов
@@ -1284,3 +1284,5 @@ ru:
   label_no_open_issues: нет открытых задач
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API ключ
+  setting_lost_password: Восстановление пароля

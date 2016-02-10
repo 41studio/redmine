@@ -147,7 +147,7 @@ sr:
   general_first_day_of_week: '1'
 
   notice_account_updated: Налог је успешно ажуриран.
-  notice_account_invalid_creditentials: Неисправно корисничко име или лозинка.
+  notice_account_invalid_credentials: Неисправно корисничко име или лозинка.
   notice_account_password_updated: Лозинка је успешно ажурирана.
   notice_account_wrong_password: Погрешна лозинка
   notice_account_register_done: Кориснички налог је успешно креиран. Кликните на линк који сте добили у е-поруци за активацију.
@@ -1184,3 +1184,5 @@ sr:
   label_no_open_issues: no open issues
   label_default_values_for_new_users: Default values for new users
   error_ldap_bind_credentials: Invalid LDAP Account/Password
+  setting_sys_api_key: API кључ
+  setting_lost_password: Изгубљена лозинка
