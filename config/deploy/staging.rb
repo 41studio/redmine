@@ -59,6 +59,7 @@ set :rails_env, "production"
 # ------------------------------------
 server '188.166.246.213',
   user: 'railsdev',
+  port: 55,
   roles: %w{web app db},
   ssh_options: {
     user: 'railsdev', # overrides user setting above
