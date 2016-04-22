@@ -310,6 +310,16 @@ class Mailer < ActionMailer::Base
       :subject => l(:mail_subject_lost_password, Setting.app_title)
   end
 
+  # Notifies user that his password was updated
+  def self.password_updated(user)
+    Mailer.security_notification(user,
+      message: :mail_body_security_notification_change,
+      field: :field_password,
+      title: :button_change_password,
+      url: {controller: 'my', action: 'password'}
+    ).deliver
+  end
+
   def register(token)
     set_language_if_valid(token.user.language)
     @token = token
@@ -329,7 +339,7 @@ class Mailer < ActionMailer::Base
     @title = options[:title] && l(options[:title])
     @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
     mail :to => recipients,
-      :subject => l(:mail_subject_security_notification)
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
   def settings_updated(recipients, changes)
@@ -337,7 +347,7 @@ class Mailer < ActionMailer::Base
     @changes = changes
     @url = url_for(controller: 'settings', action: 'index')
     mail :to => recipients,
-      :subject => l(:mail_subject_security_notification)
+      :subject => "[#{Setting.app_title}] #{l(:mail_subject_security_notification)}"
   end
 
 	# Notifies admins about settings changes

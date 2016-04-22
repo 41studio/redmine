@@ -529,6 +529,7 @@ function observeAutocompleteField(fieldId, url, options) {
     $('#'+fieldId).autocomplete($.extend({
       source: url,
       minLength: 2,
+      position: {collision: "flipfit"},
       search: function(){$('#'+fieldId).addClass('ajax-loading');},
       response: function(){$('#'+fieldId).removeClass('ajax-loading');}
     }, options));
@@ -588,6 +589,49 @@ function beforeShowDatePicker(input, inst) {
   }
   $(input).datepicker("option", "defaultDate", default_date);
 }
+
+(function($){
+  $.fn.positionedItems = function(sortableOptions, options){
+    var settings = $.extend({
+      firstPosition: 1
+    }, options );
+
+    return this.sortable($.extend({
+      handle: ".sort-handle",
+      helper: function(event, ui){
+        ui.children('td').each(function(){
+          $(this).width($(this).width());
+        });
+        return ui;
+      },
+      update: function(event, ui) {
+        var sortable = $(this);
+        var handle = ui.item.find(".sort-handle").addClass("ajax-loading");
+        var url = handle.data("reorder-url");
+        var param = handle.data("reorder-param");
+        var data = {};
+        data[param] = {position: ui.item.index() + settings['firstPosition']};
+        $.ajax({
+          url: url,
+          type: 'put',
+          dataType: 'script',
+          data: data,
+          success: function(data){
+            sortable.children(":even").removeClass("even").addClass("odd");
+            sortable.children(":odd").removeClass("odd").addClass("even");
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert(jqXHR.status);
+            sortable.sortable("cancel");
+          },
+          complete: function(jqXHR, textStatus, errorThrown){
+            handle.removeClass("ajax-loading");
+          }
+        });
+      },
+    }, sortableOptions));
+  }
+}( jQuery ));
 
 function initMyPageSortable(list, url) {
   $('#list-'+list).sortable({

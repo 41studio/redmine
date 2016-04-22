@@ -19,7 +19,7 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class IssuesControllerTest < ActionController::TestCase
   fixtures :projects,
-           :users, :email_addresses,
+           :users, :email_addresses, :user_preferences,
            :roles,
            :members,
            :member_roles,
@@ -1057,6 +1057,36 @@ class IssuesControllerTest < ActionController::TestCase
     assert @response.body.blank?
   end
 
+  def test_index_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
+  end
+
+  def test_index_should_not_include_new_issue_link_for_project_without_trackers
+    Project.find(1).trackers.clear
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
+  def test_index_should_not_include_new_issue_link_for_users_with_copy_issues_permission_only
+    role = Role.find(1)
+    role.remove_permission! :add_issues
+    role.add_permission! :copy_issues
+
+    @request.session[:user_id] = 2
+    get :index, :project_id => 1
+    assert_select 'a.new-issue', 0
+  end
+
+  def test_index_without_project_should_include_new_issue_link
+    @request.session[:user_id] = 2
+    get :index
+    assert_select 'a.new-issue[href="/issues/new"]', :text => 'New issue'
+  end
+
   def test_show_by_anonymous
     get :show, :id => 1
     assert_response :success
@@ -1420,6 +1450,17 @@ class IssuesControllerTest < ActionController::TestCase
     assert_select 'div.next-prev-links' do
       assert_select 'a[href="/issues/2"]', :text => /Previous/
       assert_select 'a[href="/issues/1"]', :text => /Next/
+    end
+  end
+
+  def test_show_should_display_prev_next_links_when_request_has_previous_and_next_issue_ids_params
+    get :show, :id => 1, :prev_issue_id => 1, :next_issue_id => 3, :issue_position => 2, :issue_count => 4
+    assert_response :success
+
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href="/issues/1"]', :text => /Previous/
+      assert_select 'a[href="/issues/3"]', :text => /Next/
+      assert_select 'span.position', :text => "2 of 4"
     end
   end
 
@@ -2576,7 +2617,7 @@ class IssuesControllerTest < ActionController::TestCase
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
 
-    with_settings :host_name => 'mydomain.foo', :protocol => 'http', :notified_events => %w(issue_added) do
+    with_settings :notified_events => %w(issue_added) do
       assert_difference 'Issue.count' do
         post :create, :project_id => 1,
           :issue => { :tracker_id => '1', :subject => 'With attachment' },
@@ -2586,7 +2627,7 @@ class IssuesControllerTest < ActionController::TestCase
 
     assert_not_nil ActionMailer::Base.deliveries.last
     assert_select_email do
-      assert_select 'a[href^=?]', 'http://mydomain.foo/attachments/download', 'testfile.txt'
+      assert_select 'a[href^=?]', 'http://localhost:3000/attachments/download', 'testfile.txt'
     end
   end
 
@@ -2784,9 +2825,6 @@ class IssuesControllerTest < ActionController::TestCase
       end
       assert_select 'input[name=copy_from][value="1"]'
     end
-
-    # "New issue" menu item should not link to copy
-    assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]'
   end
 
   def test_new_as_copy_without_add_issues_permission_should_not_propose_current_project_as_target
@@ -2988,6 +3026,24 @@ class IssuesControllerTest < ActionController::TestCase
     copy = Issue.where(:parent_id => nil).order('id DESC').first
     assert_equal count, copy.descendants.count
     assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
+  end
+
+  def test_create_as_copy_to_a_different_project_should_copy_subtask_custom_fields
+    issue = Issue.generate! {|i| i.custom_field_values = {'2' => 'Foo'}}
+    child = Issue.generate!(:parent_issue_id => issue.id) {|i| i.custom_field_values = {'2' => 'Bar'}}
+    @request.session[:user_id] = 1
+
+    assert_difference 'Issue.count', 2 do
+      post :create, :project_id => 'ecookbook', :copy_from => issue.id,
+        :issue => {:project_id => '2', :tracker_id => 1, :status_id => '1',
+                   :subject => 'Copy with subtasks', :custom_field_values => {'2' => 'Foo'}},
+        :copy_subtasks => '1'
+    end
+
+    child_copy, issue_copy = Issue.order(:id => :desc).limit(2).to_a
+    assert_equal 2, issue_copy.project_id
+    assert_equal 'Foo', issue_copy.custom_field_value(2)
+    assert_equal 'Bar', child_copy.custom_field_value(2)
   end
 
   def test_create_as_copy_without_copy_subtasks_option_should_not_copy_subtasks
@@ -3681,6 +3737,19 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue.id
   end
+ 
+  def test_put_update_should_redirect_with_previous_and_next_issue_ids_params
+    @request.session[:user_id] = 2
+
+    put :update, :id => 11,
+      :issue => {:status_id => 6, :notes => 'Notes'},
+      :prev_issue_id => 8,
+      :next_issue_id => 12,
+      :issue_position => 2,
+      :issue_count => 3
+
+    assert_redirected_to '/issues/11?issue_count=3&issue_position=2&next_issue_id=12&prev_issue_id=8'
+  end
 
   def test_get_bulk_edit
     @request.session[:user_id] = 2
@@ -4006,6 +4075,15 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal parent.id, Issue.find(1).parent_id
     assert_equal parent.id, Issue.find(3).parent_id
     assert_equal [1, 3], parent.children.collect(&:id).sort
+  end
+
+  def test_bulk_update_estimated_hours
+    @request.session[:user_id] = 2
+    post :bulk_update, :ids => [1, 2], :issue => {:estimated_hours => 4.25}
+
+    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => 'ecookbook'
+    assert_equal 4.25, Issue.find(1).estimated_hours
+    assert_equal 4.25, Issue.find(2).estimated_hours
   end
 
   def test_bulk_update_custom_field

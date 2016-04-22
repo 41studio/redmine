@@ -23,14 +23,10 @@ class TrackersController < ApplicationController
   accept_api_auth :index
 
   def index
+    @trackers = Tracker.sorted.to_a
     respond_to do |format|
-      format.html {
-        @tracker_pages, @trackers = paginate Tracker.sorted, :per_page => 25
-        render :action => "index", :layout => false if request.xhr?
-      }
-      format.api {
-        @trackers = Tracker.sorted.to_a
-      }
+      format.html { render :layout => false if request.xhr? }
+      format.api
     end
   end
 
@@ -63,12 +59,22 @@ class TrackersController < ApplicationController
   def update
     @tracker = Tracker.find(params[:id])
     if @tracker.update_attributes(params[:tracker])
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to trackers_path(:page => params[:page])
-      return
+      respond_to do |format|
+        format.html {
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to trackers_path(:page => params[:page])
+        }
+        format.js { render :nothing => true }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          edit
+          render :action => 'edit'
+        }
+        format.js { render :nothing => true, :status => 422 }
+      end
     end
-    edit
-    render :action => 'edit'
   end
 
   def destroy

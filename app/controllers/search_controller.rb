@@ -17,6 +17,7 @@
 
 class SearchController < ApplicationController
   before_filter :find_optional_project
+  accept_api_auth :index
 
   def index
     @question = params[:q] || ""
@@ -25,6 +26,15 @@ class SearchController < ApplicationController
     @titles_only = params[:titles_only] ? params[:titles_only].present? : false
     @search_attachments = params[:attachments].presence || '0'
     @open_issues = params[:open_issues] ? params[:open_issues].present? : false
+
+    case params[:format]
+    when 'xml', 'json'
+      @offset, @limit = api_offset_and_limit
+    else
+      @offset = nil
+      @limit = Setting.search_results_per_page.to_i
+      @limit = 10 if @limit == 0
+    end
 
     # quick jump to an issue
     if (m = @question.match(/^#?(\d+)$/)) && (issue = Issue.visible.find_by_id(m[1].to_i))
@@ -66,14 +76,16 @@ class SearchController < ApplicationController
       @result_count_by_type = fetcher.result_count_by_type
       @tokens = fetcher.tokens
 
-      per_page = Setting.search_results_per_page.to_i
-      per_page = 10 if per_page == 0
-      @result_pages = Paginator.new @result_count, per_page, params['page']
-      @results = fetcher.results(@result_pages.offset, @result_pages.per_page)
+      @result_pages = Paginator.new @result_count, @limit, params['page']
+      @offset ||= @result_pages.offset
+      @results = fetcher.results(@offset, @result_pages.per_page)
     else
       @question = ""
     end
-    render :layout => false if request.xhr?
+    respond_to do |format|
+      format.html { render :layout => false if request.xhr? }
+      format.api  { @results ||= []; render :layout => false }
+    end
   end
 
 private
